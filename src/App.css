@@ -106,3 +106,24 @@ label button {
   background-color: #45a049;
 }
 
+.export-buttons {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.export-buttons button {
+  margin: 5px;
+  padding: 10px 14px;
+  background-color: #2196F3;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.export-buttons button:hover {
+  background-color: #1976d2;
+}
+
+

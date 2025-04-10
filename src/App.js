@@ -1,7 +1,10 @@
 import { useReducer } from 'react';
 import AddTask from './AddTask.js';
 import TaskList from './TaskList.js';
-import "./App.css"
+import * as XLSX from 'xlsx';
+import jsPDF from 'jspdf';
+import 'jspdf-autotable';  // Ensure this is imported
+import "./App.css";
 
 export default function TaskApp() {
   const [tasks, dispatch] = useReducer(
@@ -31,12 +34,50 @@ export default function TaskApp() {
     });
   }
 
+  function handleExportXLS() {
+    const worksheet = XLSX.utils.json_to_sheet(tasks);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Tasks");
+    XLSX.writeFile(workbook, "TodoList.xlsx");
+  }
+
+  function handleExportPDF() {
+    const doc = new jsPDF();
+    doc.text("To Do List", 10, 10);
+
+    // Initialize autoTable on jsPDF instance
+    doc.autoTable({
+      head: [["ID", "Task", "Completed"]],
+      body: tasks.map(t => [t.id, t.text, t.done ? "Yes" : "No"]),
+    });
+
+    doc.save("TodoList.pdf");
+  }
+
+  function handleShare() {
+    const taskText = tasks.map(t => `- ${t.text} [${t.done ? "Done" : "Pending"}]`).join('\n');
+    if (navigator.share) {
+      navigator.share({
+        title: 'My To Do List',
+        text: taskText,
+      }).catch(error => console.log('Sharing failed:', error));
+    } else {
+      alert("Share is not supported in this browser.");
+    }
+  }
+
   return (
     <>
       <h1>📝 TO DO LIST IN HOLIDAYS</h1>
-      <AddTask
-        onAddTask={handleAddTask}
-      />
+
+      <AddTask onAddTask={handleAddTask} />
+
+      <div className="export-buttons">
+        <button onClick={handleExportXLS}>📄 Save as XLS</button>
+        <button onClick={handleExportPDF}>📑 Save as PDF</button>
+        <button onClick={handleShare}>📤 Share</button>
+      </div>
+
       <TaskList
         tasks={tasks}
         onChangeTask={handleChangeTask}
@@ -79,4 +120,5 @@ const initialTasks = [
   { id: 1, text: 'Visit the park', done: false },
   { id: 2, text: 'Drink water', done: false }
 ];
+
 
