@@ -1,6 +1,7 @@
 import { useReducer } from 'react';
 import AddTask from './AddTask.js';
 import TaskList from './TaskList.js';
+import "./App.css"
 
 export default function TaskApp() {
   const [tasks, dispatch] = useReducer(
@@ -32,7 +33,7 @@ export default function TaskApp() {
 
   return (
     <>
-      <h1>TO DO LIST IN HOLIDAYS</h1>
+      <h1>📝 TO DO LIST IN HOLIDAYS</h1>
       <AddTask
         onAddTask={handleAddTask}
       />
