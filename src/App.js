@@ -3,9 +3,10 @@ import AddTask from './AddTask.js';
 import TaskList from './TaskList.js';
 import * as XLSX from 'xlsx';
 import jsPDF from 'jspdf';
-import 'jspdf-autotable';  // Ensure this is imported
+import 'jspdf-autotable'; // Import after jsPDF
 import "./App.css";
 
+// Default export the TaskApp component
 export default function TaskApp() {
   const [tasks, dispatch] = useReducer(
     tasksReducer,
@@ -45,7 +46,7 @@ export default function TaskApp() {
     const doc = new jsPDF();
     doc.text("To Do List", 10, 10);
 
-    // Initialize autoTable on jsPDF instance
+    // Use autoTable to generate the table in PDF
     doc.autoTable({
       head: [["ID", "Task", "Completed"]],
       body: tasks.map(t => [t.id, t.text, t.done ? "Yes" : "No"]),
@@ -120,5 +121,4 @@ const initialTasks = [
   { id: 1, text: 'Visit the park', done: false },
   { id: 2, text: 'Drink water', done: false }
 ];
-
 
