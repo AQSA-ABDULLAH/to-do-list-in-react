@@ -13,11 +13,13 @@ export default function TaskApp() {
     initialTasks
   );
 
-  function handleAddTask(text) {
+  function handleAddTask(title, text, note) {
     dispatch({
       type: 'added',
       id: nextId++,
-      text: text,
+      title,
+      text,
+      note,
     });
   }
 
@@ -45,18 +47,15 @@ export default function TaskApp() {
   function handleExportPDF() {
     const doc = new jsPDF();
     doc.text("To Do List", 10, 10);
-
-    // Use autoTable to generate the table in PDF
     doc.autoTable({
-      head: [["ID", "Task", "Completed"]],
-      body: tasks.map(t => [t.id, t.text, t.done ? "Yes" : "No"]),
+      head: [["ID", "Title", "Task", "Note", "Completed"]],
+      body: tasks.map(t => [t.id, t.title, t.text, t.note, t.done ? "Yes" : "No"]),
     });
-
     doc.save("TodoList.pdf");
   }
 
   function handleShare() {
-    const taskText = tasks.map(t => `- ${t.text} [${t.done ? "Done" : "Pending"}]`).join('\n');
+    const taskText = tasks.map(t => `- ${t.title}: ${t.text} [${t.done ? "Done" : "Pending"}]\nNote: ${t.note}`).join('\n\n');
     if (navigator.share) {
       navigator.share({
         title: 'My To Do List',
@@ -93,7 +92,9 @@ function tasksReducer(tasks, action) {
     case 'added': {
       return [...tasks, {
         id: action.id,
+        title: action.title,
         text: action.text,
+        note: action.note,
         done: false
       }];
     }
@@ -117,8 +118,8 @@ function tasksReducer(tasks, action) {
 
 let nextId = 3;
 const initialTasks = [
-  { id: 0, text: 'Go to mountain', done: true },
-  { id: 1, text: 'Visit the park', done: false },
-  { id: 2, text: 'Drink water', done: false }
+  { id: 0, title: "Trip", text: 'Go to mountain', note: 'Take warm clothes', done: true },
+  { id: 1, title: "Park", text: 'Visit the park', note: 'Don’t forget snacks', done: false },
+  { id: 2, title: "Health", text: 'Drink water', note: '8 glasses minimum', done: false }
 ];
 
