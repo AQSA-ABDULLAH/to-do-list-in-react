@@ -17,7 +17,7 @@ button {
   padding: 8px 12px;
   margin-left: 4px;
   border: none;
-  background-color: #4CAF50;
+  background-color: #4caf50;
   color: white;
   border-radius: 4px;
   cursor: pointer;
@@ -31,7 +31,7 @@ button:hover {
 ul {
   list-style-type: none;
   padding: 0;
-  max-width: 600px;
+  max-width: 700px;
   width: 100%;
 }
 
@@ -108,12 +108,12 @@ label input[type="text"] {
 }
 
 .task-input:focus {
-  border-color: #4CAF50;
+  border-color: #4caf50;
 }
 
 .add-button {
   padding: 10px 16px;
-  background-color: #4CAF50;
+  background-color: #4caf50;
   color: white;
   border: none;
   border-radius: 6px;
@@ -137,7 +137,7 @@ label input[type="text"] {
 }
 
 .export-buttons button {
-  background-color: #2196F3;
+  background-color: #2196f3;
   color: white;
   border-radius: 6px;
   font-size: 14px;
@@ -148,5 +148,36 @@ label input[type="text"] {
   background-color: #1976d2;
 }
 
+/* Responsive Design */
+@media (max-width: 600px) {
+  h1 {
+    font-size: 22px;
+  }
+  .add-task-container,
+  .export-buttons {
+    flex-direction: column;
+    max-width: 320px;
+    row-gap: 6px;
+    align-items: center;
+  }
 
+  .task-input {
+    width: 100%;
+    margin-right: 0;
+  }
 
+  .add-button {
+    width: 85%;
+  }
+
+  button {
+    width: 55%;
+    margin-left: 5px;
+    margin-top: 6px;
+  }
+
+  ul {
+    max-width: 400px;
+    margin-top: 40px;
+  }
+}
